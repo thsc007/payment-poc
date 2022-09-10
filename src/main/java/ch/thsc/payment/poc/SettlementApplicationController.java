@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 @RestController
@@ -33,13 +34,12 @@ public class SettlementApplicationController {
 
 
             for (String merchant : groupedTrx.keySet()){
-                        logger.info("Merchant [{}], trxCount [{}] statistics [{}]", merchant
-                                , groupedTrx.get(merchant).size()
+                        logger.info("TZ [{}] - Merchant [{}], sum with statistics [{}]", TimeZone.getDefault().getDisplayName(), merchant
                                 , groupedTrx.get(merchant).stream().map(trx -> trx.getTransactionAmount()).collect(Collectors.summarizingInt(Integer::intValue)));
             }
 
         } else {
-            logger.info("No transactions where delivered by the day end processing.");
+            logger.info("TZ [{}] - No transactions where delivered by the day end processing.", TimeZone.getDefault().getDisplayName());
         }
     }
 }

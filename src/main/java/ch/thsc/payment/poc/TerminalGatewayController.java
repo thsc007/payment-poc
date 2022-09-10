@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.TimeZone;
+
 @RestController
 @ConditionalOnExpression("${gateway.controller.enabled:true}")
 public class TerminalGatewayController {
@@ -16,7 +18,7 @@ public class TerminalGatewayController {
 
     @GetMapping("/gateway/authorize/{terminalId}/{cardNumber}/{amount}")
     public Authorization authorize(@PathVariable String terminalId, @PathVariable String cardNumber, @PathVariable Integer amount) {
-        logger.info("Check scheme with cardNumber [{}] and amount [{}] - receiving authorization OK.", cardNumber, amount);
+        logger.info("TZ [{}] - Check scheme with cardNumber [{}] and amount [{}] - receiving authorization OK.", TimeZone.getDefault().getDisplayName(), cardNumber, amount);
         return new Authorization(cardNumber, amount, "OK");
     }
 }
