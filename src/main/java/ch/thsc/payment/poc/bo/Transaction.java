@@ -1,24 +1,21 @@
 package ch.thsc.payment.poc.bo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Transaction {
 
-
-    @Getter
     private final String transactionReferenceNumber = UUID.randomUUID().toString();
-    @Getter
-    private final String merchantName;
-    @Getter
-    private final String authorizationReferenceNumber;
-    @Getter
-    private final Integer transactionAmount;
+    private String merchantName;
+    private String authorizationReferenceNumber;
+    private Integer transactionAmount;
 
-    public Transaction(String merchantName, String authorizationReferenceNumber, Integer transactionAmount) {
-        this.merchantName = merchantName;
-        this.authorizationReferenceNumber = authorizationReferenceNumber;
-        this.transactionAmount = transactionAmount;
-    }
 }

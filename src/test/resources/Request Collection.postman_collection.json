@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "5d7801d8-b4b9-4e27-ac02-9192abb4648f",
+		"name": "Request Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "368085"
+	},
+	"item": [
+		{
+			"name": "getInit",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "INIT Terminal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/terminal",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"terminal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pay",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/terminal/pay/card123/50",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"terminal",
+						"pay",
+						"card123",
+						"50"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dayend",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/terminal/dayend",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"terminal",
+						"dayend"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

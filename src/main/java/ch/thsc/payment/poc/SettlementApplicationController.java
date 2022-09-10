@@ -1,9 +1,15 @@
 package ch.thsc.payment.poc;
 
 import ch.thsc.payment.poc.bo.Transaction;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -12,15 +18,28 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@ConditionalOnExpression("${management.controller.enabled}")
+@ConditionalOnExpression("${settlement.controller.enabled}")
 public class SettlementApplicationController {
 
     private Logger logger = LoggerFactory.getLogger(SettlementApplicationController.class);
 
-    public void processDayEndDelivery(List<Transaction> transactions) {
-        Map<String, Set<Transaction>> groupedTrx = transactions.stream().collect(Collectors.groupingBy(t -> t.getMerchantName(), Collectors.toSet()));
+    @RequestMapping(value = "/settlement/dayend/delivery", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void processDayEndDelivery(@RequestBody List<Transaction> transactions) {
+        if (transactions != null || !transactions.isEmpty()) {
+            transactions.stream().forEach(trx ->  logger.info(ReflectionToStringBuilder.toString(trx, ToStringStyle.MULTI_LINE_STYLE, true, true)));
 
-        groupedTrx.entrySet().stream().forEach(key -> groupedTrx.get(key).stream().collect(Collectors.summarizingInt(trx -> trx.getTransactionAmount())));
+            Map<String, Set<Transaction>> groupedTrx = transactions.stream().collect(Collectors.groupingBy(t -> t.getMerchantName(), Collectors.toSet()));
+            groupedTrx.entrySet();
 
+
+            for (String merchant : groupedTrx.keySet()){
+                        logger.info("Merchant [{}], trxCount [{}] statistics [{}]", merchant
+                                , groupedTrx.get(merchant).size()
+                                , groupedTrx.get(merchant).stream().map(trx -> trx.getTransactionAmount()).collect(Collectors.summarizingInt(Integer::intValue)));
+            }
+
+        } else {
+            logger.info("No transactions where delivered by the day end processing.");
+        }
     }
 }
