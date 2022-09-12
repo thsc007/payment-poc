@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 @RestController
-@ConditionalOnExpression("${terminal.controller.enabled}")
+@ConditionalOnExpression("${terminal.controller.enabled:false}")
 public class TerminalController {
 
     private final String TERMINAL_ID = "TID1234";
@@ -41,6 +41,10 @@ public class TerminalController {
     private List<Transaction> transactions = new ArrayList<>();
 
     private boolean initOk = false;
+
+    public TerminalController() {
+        logger.info(this.getClass().toString()  + " is active");
+    }
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {

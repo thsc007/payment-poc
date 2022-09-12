@@ -19,10 +19,14 @@ import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 @RestController
-@ConditionalOnExpression("${settlement.controller.enabled}")
+@ConditionalOnExpression("${settlement.controller.enabled:false}")
 public class SettlementApplicationController {
 
     private Logger logger = LoggerFactory.getLogger(SettlementApplicationController.class);
+
+    public SettlementApplicationController() {
+        logger.info(this.getClass().toString()  + " is active");
+    }
 
     @RequestMapping(value = "/settlement/dayend/delivery", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public void processDayEndDelivery(@RequestBody List<Transaction> transactions) {

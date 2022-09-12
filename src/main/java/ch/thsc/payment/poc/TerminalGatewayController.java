@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.TimeZone;
 
 @RestController
-@ConditionalOnExpression("${gateway.controller.enabled:true}")
+@ConditionalOnExpression("${gateway.controller.enabled:false}")
 public class TerminalGatewayController {
 
     private Logger logger = LoggerFactory.getLogger(TerminalGatewayController.class);
+
+    public TerminalGatewayController() {
+        logger.info(this.getClass().toString()  + " is active");
+    }
 
     @GetMapping("/gateway/authorize/{terminalId}/{cardNumber}/{amount}")
     public Authorization authorize(@PathVariable String terminalId, @PathVariable String cardNumber, @PathVariable Integer amount) {

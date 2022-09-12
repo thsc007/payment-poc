@@ -16,10 +16,14 @@ import java.util.Collections;
 import java.util.TimeZone;
 
 @RestController
-@ConditionalOnExpression("${management.controller.enabled}")
+@ConditionalOnExpression("${management.controller.enabled:false}")
 public class TerminalManagementController {
 
     private Logger logger = LoggerFactory.getLogger(TerminalManagementController.class);
+
+    public TerminalManagementController() {
+        logger.info(this.getClass().toString()  + " is active");
+    }
 
     @RequestMapping(value = "/management/init/{terminalId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Terminal getInit(@PathVariable String terminalId) {
